@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="OksModule.Views.DocumentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:viewmodels="clr-namespace:OksModule.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DocumentViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Padding="10,2"/>
+            <Separator/>
+            <Button Content="Утвердить" Command="{Binding ApproveCommand}" Padding="10,2"/>
+            <Separator/>
+            <Button Content="Отправить" Command="{Binding SendCommand}" Padding="10,2"/>
+            <Button Content="Просмотр документов" Command="{Binding OpenDocumentsListCommand}" Padding="10,2"/>
+        </ToolBar>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="10">
+                <TextBlock Text="Тип документа:"/>
+                <ComboBox ItemsSource="{Binding DocumentTypes}" 
+                          SelectedItem="{Binding Document.DocumentType}" 
+                          Margin="0,0,0,10"/>
+
+                <TextBlock Text="Название:"/>
+                <TextBox Text="{Binding Document.Title}" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Содержание:"/>
+                <TextBox Text="{Binding Document.Content}" AcceptsReturn="True" 
+                         TextWrapping="Wrap" Height="200" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Срок выполнения:"/>
+                <DatePicker SelectedDate="{Binding Document.Deadline}" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Проект:"/>
+                <ComboBox ItemsSource="{Binding Projects}" 
+                          DisplayMemberPath="Title"
+                          SelectedValuePath="ProjectId"
+                          SelectedValue="{Binding Document.ProjectId}"
+                          Margin="0,0,0,10"/>
+
+                <TextBlock Text="Отдел-получатель:"/>
+                <ComboBox ItemsSource="{Binding Departments}" 
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="DepartmentId"
+                          SelectedValue="{Binding Document.RecipientDepartmentId}"
+                          Margin="0,0,0,10"/>
+
+                <TextBlock Text="Файл:"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding Document.FilePath}" Width="300" Margin="0,0,5,0"/>
+                    <Button Content="Обзор..." Command="{Binding BrowseFileCommand}"/>
+                </StackPanel>
+
+                <TextBlock Text="Статус:" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding Document.Status}" FontWeight="Bold"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
